@@ -1,8 +1,8 @@
 import unittest
 import numpy as np
-from src.SimplifiedThreePL import SimplifiedThreePL
-from src.Experiment import Experiment
-from src.SignalDetection import SignalDetection
+from SimplifiedThreePL import SimplifiedThreePL
+from Experiment import Experiment
+from SignalDetection import SignalDetection
 
 class TestSimplifiedThreePL(unittest.TestCase):
     def setUp(self):
