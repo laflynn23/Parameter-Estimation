@@ -17,11 +17,9 @@ class Experiment:
         if not self.conditions:
             raise ValueError("No conditions available in the experiment")
             
-        # Calculate hit rates and false alarm rates for all conditions
         hit_rates = [sdt.hit_rate() for sdt in self.conditions]
         false_alarm_rates = [sdt.false_alarm_rate() for sdt in self.conditions]
         
-        # Sort based on false alarm rates
         sorted_pairs = sorted(zip(false_alarm_rates, hit_rates))
         sorted_fars, sorted_hrs = zip(*sorted_pairs)
         
@@ -34,7 +32,6 @@ class Experiment:
             
         false_alarm_rates, hit_rates = self.sorted_roc_points()
         
-        # Add implicit points (0,0) and (1,1) if they don't exist
         if false_alarm_rates[0] != 0:
             false_alarm_rates = [0.0] + false_alarm_rates
             hit_rates = [0.0] + hit_rates

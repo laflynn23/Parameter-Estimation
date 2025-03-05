@@ -1,6 +1,6 @@
 import numpy as np
 from scipy.optimize import minimize
-from scipy.special import expit  # logistic (sigmoid) function
+from scipy.special import expit
 
 class SimplifiedThreePL:
     def __init__(self, experiment):
@@ -13,7 +13,7 @@ class SimplifiedThreePL:
         if len(self.experiment.conditions) != len(self._difficulties):
             raise ValueError("Number of conditions in experiment does not match default difficulties")
         self._discrimination = None
-        self._logit_base_rate = None  # internal parameter for base rate
+        self._logit_base_rate = None  
         self._base_rate = None
         self._is_fitted = False
 
@@ -41,11 +41,6 @@ class SimplifiedThreePL:
         """
         a, c_logit = parameters
         c = 1.0 / (1.0 + np.exp(-c_logit))
-        # The probability function is defined as:
-        # p = c + (1-c) * logistic( a * (theta - b) )
-        # where theta is fixed at 0 and b are the difficulties.
-        # This simplifies to:
-        # p = c + (1-c) * (1/(1+exp(a * b)))
         p = c + (1 - c) * (1.0 / (1.0 + np.exp(a * self._difficulties)))
         return p
 
@@ -55,7 +50,6 @@ class SimplifiedThreePL:
         For each condition, the observed counts are obtained from the SignalDetection object.
         """
         p = self.predict(parameters)
-        # Avoid log(0) by clipping probabilities.
         eps = 1e-9
         p = np.clip(p, eps, 1 - eps)
         nll = 0.0
@@ -70,7 +64,6 @@ class SimplifiedThreePL:
         Fit the model by minimizing the negative log likelihood.
         Stores the fitted discrimination and base rate parameters.
         """
-        # Initial guess: a = 1.0, c_logit = 0.0 (so base rate c = 0.5)
         init_params = [1.0, 0.0]
         result = minimize(self.negative_log_likelihood, init_params, method='Nelder-Mead')
         if not result.success:
