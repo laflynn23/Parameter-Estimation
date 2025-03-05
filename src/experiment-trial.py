@@ -17,7 +17,7 @@ class Experiment:
         if not self.conditions:
             raise ValueError("No conditions available in the experiment")
             
-        # Calculate hit rates and false alarm rates for all conditions
+    
         hit_rates = [sdt.hit_rate() for sdt in self.conditions]
         false_alarm_rates = [sdt.false_alarm_rate() for sdt in self.conditions]
         

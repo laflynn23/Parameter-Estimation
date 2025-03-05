@@ -42,7 +42,6 @@ class Experiment:
             false_alarm_rates = false_alarm_rates + [1.0]
             hit_rates = hit_rates + [1.0]
             
-        # Compute AUC using the trapezoidal rule
         auc = 0.0
         for i in range(len(false_alarm_rates) - 1):
             width = false_alarm_rates[i + 1] - false_alarm_rates[i]
